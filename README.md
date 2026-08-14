@@ -1,0 +1,1 @@
+# studysprout-clipper
