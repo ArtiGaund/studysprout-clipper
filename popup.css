@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+    width: 240px;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0f0f14;
+    color: #e5e5e5;
+}
+.wrap{ padding: 16px; }
+h1{ font-size: 15px; margin: 0 0 8px; }
+#status{
+    font-size: 13px;
+    color: #a1a1aa;
+    margin: 0 0 12px;
+}
+button{
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-radius: 6px;
+    background: #7c3aed;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+button:hover{ background: #6d28d9; }
+.hint{
+    font-size: 11px;
+    color: #71717a;
+    margin-top: 12px;
+    line-height: 1.4;
+}
