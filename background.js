@@ -1,5 +1,5 @@
 // --- Config ---
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://studysprouts.in";
 const BLOCK_TYPES = [
     "heading1",
     "heading2",
