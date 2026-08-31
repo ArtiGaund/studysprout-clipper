@@ -1,5 +1,5 @@
 // --- Config ---
-const API_BASE = "https://studysprouts.in";
+const API_BASE = "https://studysprouts.in/";
 const BLOCK_TYPES = [
     "heading1",
     "heading2",
@@ -92,32 +92,47 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 // --- Auth bridge ---
 // studysprout.in's login-success page calls this to hand the session back to the extension
-chrome.runtime.onMessageExternal.addListener(async (message, _sender, sendResponse) => {
-    if (message.type === "STUDYSPROUT_LOGIN_SUCCESS") {
-        const { pendingCapture } = await chrome.storage.local.get("pendingCapture");
-        if (pendingCapture) {
-            await chrome.storage.local.remove("pendingCapture");
-            await saveToInbox(
-                pendingCapture.text,
-                pendingCapture.blockType,
-                pendingCapture.originTabId,
-                pendingCapture.sourceUrl,
-                pendingCapture.sourceTitle,
-            );
+let loginSuccessInFlight = false;
 
-            if (pendingCapture.originTabId) {
-                try {
-                    const originTab = await chrome.tabs.get(pendingCapture.originTabId);
-                    await chrome.windows.update(originTab.windowId, { focused: true });
-                    await chrome.tabs.update(pendingCapture.originTabId, { active: true });
-                } catch (error) {
-                    // original tab was closed in the meantime - nothing to switch back to
-                }
-            }
-        }
-        sendResponse({ ok: true });
-        return true; // keep message channel open for async sendResponse
-    }
+chrome.runtime.onMessageExternal.addListener(async (message, _sender, sendResponse) => {
+   if (message.type === "STUDYSPROUT_LOGIN_SUCCESS") {
+       if (loginSuccessInFlight) {
+           // A duplicate call arrived while we're already handling one - ignore it.
+           sendResponse({ ok: true });
+           return true;
+       }
+       loginSuccessInFlight = true;
+
+       try {
+           const { pendingCapture } = await chrome.storage.local.get("pendingCapture");
+           if (pendingCapture) {
+               await chrome.storage.local.remove("pendingCapture");
+               await saveToInbox(
+                   pendingCapture.text,
+                   pendingCapture.blockType,
+                   pendingCapture.originTabId,
+                   pendingCapture.sourceUrl,
+                   pendingCapture.sourceTitle,
+               );
+
+               if (pendingCapture.originTabId) {
+                   try {
+                       const originTab = await chrome.tabs.get(pendingCapture.originTabId);
+                       await chrome.windows.update(originTab.windowId, { focused: true });
+                       await chrome.tabs.update(pendingCapture.originTabId, { active: true });
+                   } catch (error) {
+                       // original tab was closed in the meantime - nothing to switch back to
+                   }
+               }
+           }
+       } finally {
+           // Reset shortly after, so a genuinely NEW future login (different session) still works.
+           setTimeout(() => { loginSuccessInFlight = false; }, 3000);
+       }
+
+       sendResponse({ ok: true });
+       return true;
+   }
 });
 
 // --- Save in studysprout inbox ---
