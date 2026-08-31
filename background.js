@@ -1,5 +1,5 @@
 // --- Config ---
-const API_BASE = "https://studysprouts.in/";
+const API_BASE = "https://studysprouts.in";
 const BLOCK_TYPES = [
     "heading1",
     "heading2",
