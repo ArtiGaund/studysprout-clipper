@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Studysprout Clipper",
-  "key": "akjpkkjgekbhifipjhocpbmlkinkfdcd",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0c+AfZghaNHPXJbIdsyxLVP5SE7jxbldp13Htd/Kr4jq2T80whyE+QT7X4IF6Xcqwg6hEAv7Sp+yZgcJ9dNYNdzuSFpcIKKrv06jEAL+ZctkJIkn6Xw2mOzuG6AQfd6AhneQNwt4Irc+SROjPxyOj13Y0Ac4uh7Zo7m2/PDltYDo229XbMQldeMvhoD4YskhaiCwYlGL0qI18cwJRh+SanYfNQMtIngXM8nVWkKUBdJBY8L3lHpl/IEJQ288nZP1ZTs2I06bwTbv9RJNHjqx0bJevQRk4SMFT4RVFHPwhqDLncdc5jp68GrafadjnDZT6wostuTCr6UVVpN/RPVBRwIDAQAB",
   "version": "1.0.0",
   "description": "A basic extension of Studysprout to enhance your learning experience.",
 
